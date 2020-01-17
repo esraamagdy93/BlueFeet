@@ -105,13 +105,10 @@
 
 import React, { Component } from "react"
 import Routes from './app/services/routes'
-// import { ApolloProvider } from "react-apollo"
-// import { client } from "./app/config/api/index"
-// import { Provider } from "react-redux"
-// import store from "./app/redux/store"
-import {
-  Text
-} from "react-native"
+import { ApolloProvider } from "react-apollo"
+import { client } from "./app/config/api/index"
+import { Provider } from "react-redux"
+import store from "./app/redux/store"
 
 export default class App extends Component {
 
@@ -127,11 +124,11 @@ export default class App extends Component {
 
   render() {
     return (
-      // <ApolloProvider client={client}>
-      //   <Provider store={store}>
+      <ApolloProvider client={client}>
+        <Provider store={store}>
           <Routes />
-      //   </Provider>
-      // </ApolloProvider>
+       </Provider>
+     </ApolloProvider>
     );
   }
 }
