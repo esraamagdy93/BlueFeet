@@ -1,8 +1,9 @@
 import React from 'react'
 import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity,Linking } from 'react-native'
 import styles, { appColor, deviceHight, deviceWidth } from './../../../../../styles/styles'
-import { LoginButton } from 'react-native-fbsdk';
+import { LoginButton, AccessToken } from 'react-native-fbsdk';
 import axios from "axios";
+import { WebView } from 'react-native-webview';
 
 export default class userLogin extends React.Component {
   state = { username: '', password: '', errorMessage: null }
@@ -45,25 +46,33 @@ _handleOpenURL(event) {
     // }
     return (
       <View style={styles.container}>
-        <View>
-        {/* <LoginButton
-          publishPermissions={["email"]}
-          onLoginFinished={
-            (error, result) => {
-              if (error) {
-                alert("Login failed with error: " + error.message);
-              } else if (result.isCancelled) {
-                alert("Login was cancelled");
-              } else {
-                alert("Login was successful with permissions: " + result.grantedPermissions)
-              }
-            }
-          }
-          onLogoutFinished={() => alert("User logged out")}/> */}
-          <TouchableOpacity onPress={() => Linking.openURL('https://bluefeets.com/facebook/login')}>
-        <Text style={{color:'#000'}}> Continue with Mobile Number</Text>
-        </TouchableOpacity>
+           <View>
+        
+
+
+<LoginButton
+  publishPermissions={['publish_actions']}
+  readPermissions={['public_profile']}
+  onLoginFinished={
+    (error, result) => {
+      if (error) {
+        console.log('login has error: ', result.error)
+      } else if (result.isCancelled) {
+        console.log('login is cancelled.')
+      } else {
+        AccessToken.getCurrentAccessToken().then((data) => {
+        //   const { accessToken } = data
+        //   initUser(accessToken)
+        console.log(data)
+
+        })
+      }
+    }
+  }
+  onLogoutFinished={() => console.log("logout.")}/>
+
       </View>
+
       </View>
     )
   }
