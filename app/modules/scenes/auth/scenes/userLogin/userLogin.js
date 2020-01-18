@@ -12,7 +12,7 @@ import logo from '../../../../../images/logo_trans.png'
 
 class userLogin extends React.Component {
 
-    state = { flagLogin: false }
+    state = { flagLogin: false, _id: '' }
 
     fbAuth() {
         let that = this
@@ -26,9 +26,8 @@ class userLogin extends React.Component {
                             fetch('https://bluefeets.com/facebook/token?access_token=' + accessToken)
                                 .then(async json => {
                                     json = await json.json()
-
-                                    // alert(json)
-                                    that.setState({ flagLogin: true })
+                                    console.log("jsonnn", json._id)
+                                    that.setState({ flagLogin: true, _id: json._id })
                                 })
                                 .catch(error => {
                                     console.log(error)
@@ -45,8 +44,10 @@ class userLogin extends React.Component {
     }
     render() {
         if (this.state.flagLogin) {
-            this.props.navigation.navigate("addPhoneNumber")
-
+            console.log("renderr", this.state._id)
+            var item = this.state._id
+            this.props.navigation.navigate("addPhoneNumber", { item }
+            )
         }
 
         return (
