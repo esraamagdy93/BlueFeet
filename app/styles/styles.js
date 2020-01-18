@@ -4,6 +4,7 @@ export const deviceHight = Dimensions.get("window").height;
 export const appColor = '#00316E' 
 export const babyBlue = '#00decf'
 export const gray = 'gray'
+export const wihte = '#ffffff'
 
 export default StyleSheet.create({
   container: {
@@ -54,4 +55,9 @@ export default StyleSheet.create({
   viewheight: {
     height: deviceHight * 0.2
   },
+  image:{
+    width:deviceWidth*0.132,
+    height:deviceHight*0.07,
+    marginTop:deviceHight*0.02
+  }
 })

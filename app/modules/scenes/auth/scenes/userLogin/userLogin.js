@@ -1,72 +1,111 @@
 import React from 'react'
-import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity, } from 'react-native'
-import styles, { appColor, deviceHight, deviceWidth } from './../../../../../styles/styles'
+import { TouchableOpacity, ImageBackground, Image } from 'react-native'
+import styles, { appColor, deviceHight, deviceWidth, wihte } from './../../../../../styles/styles'
+import { Container, Header, Content, Icon, Picker, Form, Text, View, Button, ListItem, CheckBox, Body, Item, Left } from "native-base";
+
 import { AccessToken, LoginManager } from 'react-native-fbsdk'
 import { getProfileData } from "../actions";
 import { connect } from 'react-redux'
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import imageStart from '../../../../../images/start.png'
+import logo from '../../../../../images/logo_trans.png'
 
 class userLogin extends React.Component {
 
-  fbAuth() {
-    let that = this
-    LoginManager.logInWithPermissions(['public_profile', 'email']).then(
-      function (result) {
-        if (result.isCancelled) { console.log('Login was cancelled') }
-        else {
-          AccessToken.getCurrentAccessToken().then(
-            (data) => {
-              const { accessToken } = data
-              fetch('https://bluefeets.com/facebook/token?access_token=' + accessToken)
-                .then(async json => {
-                  json = await json.json()
-                  alert(json)
-                })
-                .catch(error => {
-                  console.log(error)
-                })
+    state = { flagLogin: false }
 
-            })
+    fbAuth() {
+        let that = this
+        LoginManager.logInWithPermissions(['public_profile', 'email']).then(
+            function (result) {
+                if (result.isCancelled) { console.log('Login was cancelled') }
+                else {
+                    AccessToken.getCurrentAccessToken().then(
+                        (data) => {
+                            const { accessToken } = data
+                            fetch('https://bluefeets.com/facebook/token?access_token=' + accessToken)
+                                .then(async json => {
+                                    json = await json.json()
+
+                                    // alert(json)
+                                    that.setState({ flagLogin: true })
+                                })
+                                .catch(error => {
+                                    console.log(error)
+                                })
+
+                        })
+
+                }
+            },
+            function (error) {
+                console.log('Login failed with error: ' + error);
+            }
+        );
+    }
+    render() {
+        if (this.state.flagLogin) {
+            this.props.navigation.navigate("addPhoneNumber")
 
         }
-      },
-      function (error) {
-        console.log('Login failed with error: ' + error);
-      }
-    );
-  }
-  render() {
+
+        return (
+            <View style={styles.container}>
+
+                <ImageBackground
+                    style={{ width: deviceWidth, height: deviceHight, }}
+
+                    source={imageStart}
+
+                >
+
+                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Image
+                                style={styles.image}
+                                source={logo}
+                            />
+                            <View style={{ marginTop: deviceHight * 0.015, marginLeft: deviceWidth * 0.02 }}>
+                                <Text style={{ color: wihte, fontSize: deviceWidth * 0.055, fontWeight: '700' }}>Blue</Text>
+                                <Text style={{ color: wihte, fontSize: deviceWidth * 0.055, fontWeight: '700' }}>Feet</Text>
+                            </View>
+
+                        </View>
+                        <Button style={{ backgroundColor: appColor, width: deviceWidth * 0.7, marginTop: deviceHight * 0.7 }} iconLeft onPress={() => this.fbAuth()}>
 
 
-    return (
-      <View style={styles.container}>
-        <View>
+                            <FontAwesome
+                                name={'facebook-f'}
+                                size={26}
+                                style={{ color: wihte, marginLeft: deviceWidth * 0.05 }}
+                            />
+                            <Body>
+                                <Text style={{ color: wihte, fontSize: deviceHight * 0.022, fontWeight: '700' }}
+                                >Continue with Facebook</Text>
+                            </Body>
+                        </Button>
 
 
-          <TouchableOpacity
-            onPress={() => this.fbAuth()}
-          >
-            <View style={{
-              width: deviceWidth * 0.65, height: deviceHight * 0.06, alignItems: "center",
-              justifyContent: "center",
-            }}>
-              <Text style={{ fontSize: deviceWidth * 0.06, color: '#000000', fontWeight: '200' }}>Next</Text>
+
+                        <Text style={{ fontSize: deviceWidth * 0.04, color: wihte, fontWeight: '200', marginTop: deviceHight * 0.02 }}>OR</Text>
+
+                        <Text style={{ fontSize: deviceWidth * 0.04, color: wihte, fontWeight: '200' }}>Continue with mobile number</Text>
+                    </View>
+                </ImageBackground>
+
             </View>
-          </TouchableOpacity>
-        </View>
-
-      </View>
-    )
-  }
+        )
+    }
 }
 function mapStateToProps(state) {
-  console.log(state)
-  return {
-    authReducer: state.authReducer,
-  };
+    console.log(state)
+    return {
+        authReducer: state.authReducer,
+    };
 }
 export default connect(
-  mapStateToProps,
-  {
-    getProfileData
-  }
+    mapStateToProps,
+    {
+        getProfileData
+    }
 )(userLogin)
