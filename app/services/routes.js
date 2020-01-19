@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { createStackNavigator, createDrawerNavigator } from 'react-navigation-stack';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
+import HomeScreen from "../modules/scenes/home/scenes/homeScreen";
+import SelectVenue from "../modules/scenes/home/scenes/selectVenue";
+
 import PlayersScreen from "../modules/scenes/players/playersScreen";
 import ProfileScreen from "../modules/scenes/profileScreen/profileScreen";
 import UserLogin from ".//../../app/modules/scenes/auth/scenes/userLogin"
@@ -18,7 +21,7 @@ const Players = createStackNavigator({
     PlayersScreen: {
         screen: PlayersScreen,
         navigationOptions: ({ navigation }) => ({
-            title: 'Home',
+            title: 'Players',
             headerStyle: {
                 elevation: 0,
                 backgroundColor: appColor,
@@ -27,30 +30,26 @@ const Players = createStackNavigator({
 
             headerTintColor: '#fff',
         }),
+
+       
     },
 
 });
-// const Services = createStackNavigator({
-//     AdminServices: {
-//         screen: AdminServices,
-//         navigationOptions: ({ navigation }) => ({
-//             title: 'Services',
-//             headerStyle: {
-//                 elevation: 0,
-//                 backgroundColor: appColor,
+const Home = createStackNavigator({
+    HomeScreen: {
+        screen: HomeScreen,
+        navigationOptions: () => ({
+            header: null
+        })
 
-//             }, headerTitleStyle: { textAlign: 'center', alignSelf: 'center' },
+    },
 
-//             headerTintColor: '#fff',
-//         }),
-//     },
-
-// });
+});
 
 
 const tabs = createBottomTabNavigator({
     screen1: {
-        screen: Players,
+        screen: Home,
         navigationOptions: {
             tabBarLabel: ({ tintColor, focused }) => (
                 <Text style={{ color: focused ? appColor : gray, textAlign: 'center', fontSize: deviceWidth * 0.025, marginBottom: deviceHight * 0.005, fontWeight: 'bold' }}
@@ -73,7 +72,7 @@ const tabs = createBottomTabNavigator({
         navigationOptions: {
             tabBarLabel: ({ tintColor, focused }) => (
                 <Text style={{ color: focused ? appColor : gray, textAlign: 'center', fontSize: deviceWidth * 0.025, marginBottom: deviceHight * 0.005, fontWeight: 'bold' }}
-                >Notifications</Text>
+                >Players</Text>
             ),
             tabBarIcon: ({ tintColor, focused }) => (
                 <Ionicons
@@ -201,19 +200,14 @@ const AppNavigation = createStackNavigator({
             header: null
         }),
     },
-    // EditOwner: {
-    //     screen: EditOwner,
-    //     navigationOptions: ({ navigation }) => ({
-    //         title: 'Edit Owner',
-    //         headerStyle: {
-    //             elevation: 0,
-    //             backgroundColor: appColor,
 
-    //         }, headerTitleStyle: { textAlign: 'center', alignSelf: 'center' },
 
-    //         headerTintColor: '#fff',
-    //     }),
-    // },
+    SelectVenue: {
+        screen: SelectVenue,
+        navigationOptions: ({ navigation }) => ({
+            header: null
+        }),
+    },
     // AddServices: {
     //     screen: AddServices,
     //     navigationOptions: ({ navigation }) => ({

@@ -27,14 +27,18 @@ class addPhoneNumber extends React.Component {
         );
 
     }
-    RegisterSuccess() {
-        this.props.navigation.navigate("verificationCode")
+    RegisterSuccess(item) {
+        console.log("_idddd",item)
+
+        this.props.navigation.navigate("verificationCode",{item})
 
     }
     render() {
         if (this.props.authReducer.registerDataSuccess != null) {
-            console.log("true")
-            this.RegisterSuccess()
+            // console.log("true")
+
+        // this.setState({_id:})
+            this.RegisterSuccess(this.props.authReducer.registerDataSuccess.data.register._id)
         }
         return (
             <View style={styles.containerHome}>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity, ImageBackground, Image } from 'react-native'
+import { TouchableOpacity, ImageBackground, Image,AsyncStorage } from 'react-native'
 import styles, { appColor, deviceHight, deviceWidth, wihte } from './../../../../../styles/styles'
 import { Container, Header, Content, Icon, Picker, Form, Text, View, Button, ListItem, CheckBox, Body, Item, Left } from "native-base";
 
@@ -26,8 +26,9 @@ class userLogin extends React.Component {
                             fetch('https://bluefeets.com/facebook/token?access_token=' + accessToken)
                                 .then(async json => {
                                     json = await json.json()
-                                    console.log("jsonnn", json._id)
+                                    console.log("jsonnn", json)
                                     that.setState({ flagLogin: true, _id: json._id })
+                                    AsyncStorage.setItem("verificationCode", JSON.stringify(json.verification.code));
                                 })
                                 .catch(error => {
                                     console.log(error)

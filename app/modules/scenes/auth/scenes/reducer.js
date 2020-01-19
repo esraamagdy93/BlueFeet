@@ -5,12 +5,18 @@ import {
     REGISTER,
     REGISTER_DATA_SUCCESS,
     REGISTER_DATA_FAILURE,
+    VERIFYUSER,
+    VERIFYUSER_DATA_SUCCESS,
+    VERIFYUSER_DATA_FAILURE,
+
 } from "./actionsTypes"
 const initialState = {
     getProfileDataSuccess: null,
     getProfileDataFaulier: null,
     registerDataSuccess: null,
-    registerDataFaulier: null
+    registerDataFaulier: null,
+    verifyUserDataSuccess: null,
+    verifyUserDataFaulier: null
 
 }
 export default function dataReducer(state = initialState, action) {
@@ -49,6 +55,24 @@ export default function dataReducer(state = initialState, action) {
             return {
                 ...state,
             }
+            case VERIFYUSER :
+                return { ...state };
+    
+            case VERIFYUSER_DATA_SUCCESS:
+                state.verifyUserDataSuccess = action.data
+                state.verifyUserDataFaulier = null
+    
+                return {
+                    ...state
+                }
+            case VERIFYUSER_DATA_FAILURE:
+                state.verifyUserDataSuccess = null
+                state.VerifyUserDataFaulier = action.data
+    
+                return {
+                    ...state,
+                }
+    
 
         default:
             return state

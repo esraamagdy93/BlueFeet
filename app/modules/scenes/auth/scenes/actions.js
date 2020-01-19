@@ -5,6 +5,9 @@ import {
     REGISTER,
     REGISTER_DATA_SUCCESS,
     REGISTER_DATA_FAILURE,
+    VERIFYUSER,
+    VERIFYUSER_DATA_SUCCESS,
+    VERIFYUSER_DATA_FAILURE,
 } from "./actionsTypes";
 
 export const getProfileData = (object) => (
@@ -46,6 +49,28 @@ export function registerDataSuccess(data) {
 export function registerDataFaulier(data) {
     return {
         type: REGISTER_DATA_FAILURE,
+        data
+    }
+}
+export const verifyUserData = (object) => (
+    console.log("action",object),
+    {
+        type: VERIFYUSER,
+        payload: object,
+
+
+    })
+
+export function verifyUserDataSuccess(data) {
+    return {
+        type: VERIFYUSER_DATA_SUCCESS,
+        data
+    }
+}
+
+export function verifyUserDataFaulier(data) {
+    return {
+        type: VERIFYUSER_DATA_FAILURE,
         data
     }
 }

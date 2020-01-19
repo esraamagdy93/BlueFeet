@@ -1,19 +1,21 @@
 import { all, call, fork, takeEvery, put } from "redux-saga/effects"
 import {
     GET_PROFILE,
-    REGISTER
+    REGISTER,
+    VERIFYUSER
 
 } from "./actionsTypes"
 import {
     getProfileDataSuccess,
-    registerDataSuccess
+    registerDataSuccess,
+    verifyUserDataSuccess
 
 
 } from './actions'
 import Queries from "../utils/queryHelper";
 import { client } from "../../../../config/api";
 
-async function registerCaller(phone,_id) {
+async function registerCaller(phone, _id) {
 
     return await client
         .mutate({
@@ -21,7 +23,7 @@ async function registerCaller(phone,_id) {
             variables: {
                 user: {
                     phone: phone,
-                    _id:_id
+                    _id: _id
                 },
             },
 
@@ -33,6 +35,25 @@ async function registerCaller(phone,_id) {
 
 }
 
+
+async function verifyUserCaller(code, _id) {
+    return await client
+        .mutate({
+            mutation: Queries.verifyUser,
+            variables: {
+                _id: _id,
+                code: code
+
+
+            },
+
+        })
+        .then(resp => resp
+        )
+        .catch(error =>
+            console.log(error))
+
+}
 
 
 async function getProfileCaller() {
@@ -65,6 +86,26 @@ function* register(action) {
     }
 }
 
+function* verifyUser(action) {
+    try {
+        const response = yield call(
+            verifyUserCaller,
+            action.payload.code,
+            action.payload._id,
+
+
+        );
+        if (response) {
+
+            yield put(verifyUserDataSuccess(response))
+
+        }
+    } catch (e) {
+        console.log(e)
+
+    }
+}
+
 function* getProfile() {
     try {
         console.log(11)
@@ -87,6 +128,10 @@ function* registerDataSaga() {
     yield takeEvery(REGISTER, register)
 
 }
+function* verifyUserDataSaga() {
+    yield takeEvery(VERIFYUSER, verifyUser)
+
+}
 function* getProfileDataSaga() {
     yield takeEvery(GET_PROFILE, getProfile)
 
@@ -98,6 +143,7 @@ function* getProfileDataSaga() {
 export default function* rootSaga() {
     yield all([
         fork(registerDataSaga),
+        fork(verifyUserDataSaga),
         fork(getProfileDataSaga)
 
     ]);

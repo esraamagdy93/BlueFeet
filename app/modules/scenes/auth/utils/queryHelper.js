@@ -11,7 +11,11 @@ export default class Queries {
         }
         `;
     }
-
+    static get verifyUser() {
+        return gql`mutation  verify_user($code: String!, $_id: String!) {
+          verify_user(code:$code, _id: $_id)   
+    }`;
+    }
     static get getProfile() {
         return gql`
       query get_profile{
